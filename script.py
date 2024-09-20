@@ -181,13 +181,53 @@ def save_to_csv(data, file_path):
 
 # MySQL database connection
 def connect_to_db():
-    return mysql.connector.connect(
+    # Connect to MySQL server (without specifying a database initially)
+    db_conn = mysql.connector.connect(
         host='localhost',
         user='root',
         password='',
-        database='solution_app',
         port=3306
     )
+    cursor = db_conn.cursor()
+
+    # Create the database if it doesn't exist
+    cursor.execute("CREATE DATABASE IF NOT EXISTS solution_app")
+    cursor.execute("USE solution_app")  # Switch to the new database
+
+    # Create the table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS business_data (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255),
+            page_url VARCHAR(255),
+            subtitle TEXT,
+            subtitle_summary_details TEXT,
+            reason TEXT,
+            includes TEXT,
+            name_phone_email TEXT,
+            business_name TEXT,
+            established VARCHAR(50),
+            employees VARCHAR(50),
+            legal_entity VARCHAR(100),
+            reported_sales VARCHAR(100),
+            run_rate_sales VARCHAR(100),
+            ebitda_margin VARCHAR(50),
+            industries TEXT,
+            locations TEXT,
+            local_time VARCHAR(50),
+            listed_by VARCHAR(100),
+            status VARCHAR(50),
+            documents TEXT,
+            business_overview TEXT,
+            products_services_overview TEXT,
+            assets_overview TEXT,
+            facilities_overview TEXT,
+            capitalization_overview TEXT,
+            tags TEXT
+        )
+    """)
+
+    return db_conn
 
 # Save to MySQL
 def save_to_mysql(data):
