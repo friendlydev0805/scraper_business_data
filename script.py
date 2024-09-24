@@ -282,14 +282,17 @@ def save_to_mysql(data):
     db_conn.close()
 
 if __name__ == "__main__":
-    urls = [
-        "https://www.smergers.com/businesses-for-sale-and-investment-opportunities/c61c65c78c111b/",
-        # Add more URLs here
-    ]
+    # URL template where the page number can be dynamically added
+    base_url = "https://www.smergers.com/businesses-for-sale-and-investment-opportunities/c61c65c78c111b/?page={}"
     
+    # List to store the scraped data
     all_data = []
     
-    for url in urls:
+    # Loop through pages 1 to 153
+    for page_num in range(1, 154):
+        url = base_url.format(page_num)
+        print(f"Scraping page {page_num}: {url}")
+        
         soup = extract_info_site(url)
         data = parse_data(soup)
         if data:

@@ -21,6 +21,7 @@ venv/
 
 *.txt
 *.json
+*.csv
 
 # Package files
 *.jar
